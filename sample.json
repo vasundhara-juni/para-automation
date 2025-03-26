@@ -1,0 +1,62 @@
+{
+    "paragon_version": "24.1",
+    "server_ip": "10.219.94.137",
+    "server_username": "root",
+    "server_password": "root1234",
+    "ingress_ip": "192.168.1.100",
+    "cluster_name": "paragon-cluster",
+    "ingressscontroller":"",
+    "insightsip":"",
+    "snmp":"",
+    "pathfinder":"",
+    "use_netflowd":true,
+    "pce_server":"",
+    "ntp":"time.nist.gov",
+    "md5_bgp":""    ,
+    "md5_pce":"",
+    "bgp_asn":"",
+    "crpd":[],
+    "vms": [
+        {
+            "hostname": "paragon-master-01",
+            "ip_address": "192.168.1.110",
+            "user": "admin",
+            "password": "S3cureP@ssw0rd!2024",
+            "is_storage_node": true,
+            "vm_type": "master",
+            "os": "Ubuntu 22.04 LTS",
+            "cpu_cores": 8,
+            "ram_gb": 32,
+            "ssh_enabled": true
+        },
+        {
+            "hostname": "paragon-worker-01",
+            "ip_address": "192.168.1.111",
+            "user": "worker",
+            "password": "W0rkerN0de@2024",
+            "is_storage_node": false,
+            "vm_type": "worker",
+            "os": "Ubuntu 22.04 LTS",
+            "cpu_cores": 16,
+            "ram_gb": 64,
+            "ssh_enabled": true
+        },
+        {
+            "hostname": "paragon-storage-01",
+            "ip_address": "192.168.1.112",
+            "user": "storage",
+            "password": "St0r@geN0de2024!",
+            "is_storage_node": true,
+            "vm_type": "storage",
+            "os": "Ubuntu 22.04 LTS",
+            "cpu_cores": 16,
+            "ram_gb": 128,
+            "ssh_enabled": true,
+            "storage_details": {
+                "total_capacity_tb": 100,
+                "used_capacity_tb": 45,
+                "raid_type": "RAID 6"
+            }
+        }
+    ]
+}
