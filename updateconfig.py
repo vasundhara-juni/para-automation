@@ -2,12 +2,12 @@ import re
 import subprocess
 
 # Define your variables
-INGRESS_VIP = "10.0.0.100"
-Insights_VIP = "10.0.0.101"
+INGRESS_VIP = "10.219.90.106"
+Insights_VIP = "10.219.90.107"
 NTP_SERVER = "ntp.juniper.net"
 WEB_HOSTNAME = "para.example.net"
-NGINX_INGRESS_VIP = "10.0.0.102"
-CRPD_PEER = "10.0.1.1"
+NGINX_INGRESS_VIP = "10.219.90.108"
+CRPD_PEER = "10.219.90.109"
 BGP_ASN= "65000"    
 # Input and output file paths
 input_file = 'config.yml'

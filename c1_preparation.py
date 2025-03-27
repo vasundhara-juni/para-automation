@@ -1,11 +1,11 @@
 import subprocess
 import time
 
-C1_IP = "10.219.94.145"
+C1_IP = "10.219.90.101"
 VM_NAME = "c1"
 SCRIPTS = [
-    ("./c1_setup.py", "/root/c1_inside_setup.py")
-    ("./c1_control.py", "/root/cluster_setup.py"),
+    ("./c1_setup.py", "/root/c1_inside_setup.py"),
+    ("./c1_control.py", "/root/cluster_setup.py")
     
 ]
 

@@ -355,12 +355,12 @@ import yaml
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 vms = {
-     "ubuntu": {"memory": 12288, "vcpu": 2, "network": "mgmt",  "ip": "10.219.94.155"},
-    "c1": {"memory": 12288, "vcpu": 2, "network": "mgmt",  "ip": "10.219.94.145"},
-    "p1": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.94.141"},
-    "p2w1": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.94.142"},
-    "p3w2": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.94.143"},
-    "w3": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.94.144"},
+    #  "ubuntu": {"memory": 12288, "vcpu": 2, "network": "mgmt",  "ip": "10.219.94.155"},
+    "c1": {"memory": 12288, "vcpu": 2, "network": "mgmt",  "ip": "10.219.90.101"},
+    "p1": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.90.102"},
+    "p2w1": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.90.103"},
+    "p3w2": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.90.104"},
+    "w3": {"memory": 32768, "vcpu": 8, "network": "mgmt", "ip": "10.219.90.105"},
 }
 
 libvirt_pool_dir = "/var/lib/libvirt/images"
@@ -482,13 +482,25 @@ def configure_image(vm_name):
         --run-command 'dpkg-reconfigure -pmedium unattended-upgrades' \
         --run-command 'dpkg-reconfigure openssh-server'
     """)
+def ensure_extra_disk_exists(vm_name, libvirt_pool_dir):
+    """
+    Ensure the extra disk for the VM exists. If not, create one with a size of 30GB.
+    """
+    extra_disk_path = f"{libvirt_pool_dir}/{vm_name}_extra.qcow2"
+    if not os.path.exists(extra_disk_path):
+        logging.info(f"Extra disk {extra_disk_path} not found. Creating a new 30GB disk...")
+        run_cmd(f"qemu-img create -f qcow2 {extra_disk_path} 30G")
+        logging.info(f"✅ Extra disk {extra_disk_path} created successfully.")
+    else:
+        logging.info(f"✅ Extra disk {extra_disk_path} already exists.")
 
 def define_vm(vm_name, config):
     logging.info(f"Defining VM {vm_name}")
     
     # Path for additional 30GB disk
     extra_disk_path = f"{libvirt_pool_dir}/{vm_name}_extra.qcow2"
-    
+    ensure_extra_disk_exists(vm_name, libvirt_pool_dir)
+  
     # Run virt-install with an additional disk for each VM
     run_cmd(f"""
         virt-install --name {vm_name} \

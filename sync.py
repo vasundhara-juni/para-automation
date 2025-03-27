@@ -119,7 +119,7 @@
 import subprocess
 import json
 from flask import Flask, request, render_template_string
-from json_utils import load_json_file, get_value_from_json
+# from json_utils import load_json_file, get_value_from_json
 app = Flask(__name__)
 
 HTML_FORM = '''
@@ -146,7 +146,7 @@ def index():
             "password": request.form['password']
         }
         with open('server_data.json', 'w') as f:
-            json.dump(server_data, f)
+            json.dump(server_data, f) 
         print("Server details saved to server_data.json")
         run_scripts_from_file()
         return "Scripts execution started! Check the console for updates."
@@ -169,7 +169,18 @@ def copy_files_to_server(server_ip, username, password, files, remote_path):
             print(f"❌ Failed to copy {file} to {server_ip}:{remote_path}: {e}")
             return False
     return True
-
+def run_local_script(script_path):
+    """
+    Run a local Python script.
+    """
+    print(f"💻 Running local script: {script_path}")
+    try:
+        subprocess.run(["python3", script_path], check=True)
+        print(f"✅ {script_path} executed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Failed to execute {script_path}: {e}")
+        return False
+    return True
 def run_remote_script(server_ip, username, password, script_path):
     print(f"Uploading {script_path} to {server_ip}")
     try:
@@ -225,12 +236,12 @@ def run_scripts_from_file():
     script_order = [
         './prereq.py',
          './setup.py',
-        './resize.py',  # Add your Bash script here
+        './resize.py',  
         # './c1_setupserver.py',
         # './c1_controlserver.py',
         'c1_preparation.py',
         './paragoninventory_config.py',
-        './deploy.py'
+        # './deploy.py'
     ]
 
     print("Starting remote script execution...")
@@ -243,5 +254,41 @@ def run_scripts_from_file():
     print("All scripts executed successfully on the remote server!")
 
 if __name__ == "__main__":
-    print("Starting web UI at http://127.0.0.1:5009")
-    app.run(debug=True, port=5009)
+    print("Starting web UI at http://127.0.0.1:5001")
+    app.run(debug=True, port=5001)
+    deploy_script_path = "./deploy.py"
+    print("🚀 Running deploy.py locally after remote scripts execution...")
+    if run_local_script(deploy_script_path):
+        print("✅ deploy.py executed successfully.")
+    else:
+        print("❌ deploy.py execution failed. Please check the script.")
+
+
+
+
+    #     def run_remote_script(server_ip, username, password, script_path):
+    # print(f"Uploading {script_path} to {server_ip}")
+    # try:
+    #     # Upload script to the remote server
+    #     upload_command = f"sshpass -p '{password}' scp {script_path} {username}@{server_ip}:~/{script_path}"
+    #     subprocess.run(upload_command, shell=True, check=True)
+
+    #     # Detect and run based on file extension
+    #     if script_path.endswith('.py'):
+    #         print(f"Running Python script {script_path} on {server_ip}")
+    #         command = f"sshpass -p '{password}' ssh {username}@{server_ip} 'python3 ~/{script_path}'"
+    #     elif script_path.endswith('.sh'):
+    #         print(f"Running Bash script {script_path} on {server_ip}")
+    #         command = f"sshpass -p '{password}' ssh {username}@{server_ip} 'bash ~/{script_path}'"
+    #     else:
+    #         print(f"Unsupported script format: {script_path}")
+    #         return False
+
+    #     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    #     print(result.stdout.decode())
+    #     print(f"{script_path} completed successfully on {server_ip}.")
+    #     return True
+
+    # except subprocess.CalledProcessError as e:
+    #     print(f"Error in {script_path} on {server_ip}: {e.stderr.decode()}")
+    #     return False

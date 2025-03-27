@@ -1,7 +1,7 @@
 import subprocess
 
 # VM details
-VM_IP = "10.219.94.145"  # Replace with the IP of your VM
+VM_IP = "10.219.90.101"  # Replace with the IP of your VM
 USER = "root"  # Replace with the correct username for the VM
 PASSWORD = "juniper123"  # Replace with the actual password for the VM
 

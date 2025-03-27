@@ -1,10 +1,10 @@
 import re
 
 # Hardcoded variables
-k8s_masters = ["10.219.94.141", "10.219.94.142", "10.219.94.143"]
-k8s_workers = ["10.219.94.144"]
+k8s_masters = ["10.29.90.102", "10.219.90.103", "10.219.90.104"]
+k8s_workers = ["10.219.90.105"]
 tsdb_nodes = []
-storage_nodes = ["10.219.94.142", "10.219.94.143", "10.219.94.144"]
+storage_nodes = ["10.219.90.103", "10.219.90.104", "10.219.90.105"]
 ansible_user = "root"
 ssh_key_file = "config/id_rsa"
 ansible_password = "juniper123"

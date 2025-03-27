@@ -3,219 +3,306 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Server Details Form</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> <!-- FileSaver.js CDN -->
+  <title>Server Deployment Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --background-color: #f3f4f6;
+      --card-background: #ffffff;
+      --text-primary: #1f2937;
+      --text-secondary: #4b5563;
+      --border-color: #e5e7eb;
+    }
+
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
     }
-    h2 {
-      text-align: center;
-      color: #333;
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-primary);
+      line-height: 1.6;
     }
-    form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
+
+    .dashboard-container {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 2rem;
     }
-    h3 {
-      color: #444;
-      margin-top: 20px;
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
     }
-    label {
-      display: block;
-      margin: 8px 0 5px;
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
     }
-    input[type="text"],
-    input[type="password"],
-    input[type="number"],
-    input[type="checkbox"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
+
+    .card {
+      background-color: var(--card-background);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
     }
-    input[type="checkbox"] {
-      width: auto;
-      margin-top: 5px;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
     }
-    .vm {
-      margin-bottom: 20px;
-      padding: 15px;
-      border: 1px solid #ddd;
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Two columns by default */
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-groupcheckbox {
+      display: flex;
+      flex-direction: row;
+    }
+    .form-group label {
+      margin-bottom: 0.5rem;
+      margin-right: auto;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      background-color: #f9f9f9;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
     }
-    .vm h4 {
-      color: #333;
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
-    button {
-      background-color: #5c6bc0;
-      color: white;
-      padding: 10px 15px;
+
+    .form-input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .vm-section {
+      background-color: var(--background-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .vm-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .vm-card {
+      background-color: var(--card-background);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
-    button:hover {
-      background-color: #3f51b5;
+.checkboxlabel {
+      margin-right: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
-    input[type="submit"] {
-      background-color: #4caf50;
+    .button-primary {
+      background-color: var(--primary-color);
       color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
     }
-    input[type="submit"]:hover {
-      background-color: #45a049;
+
+    .button-primary:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-secondary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .button-secondary:hover {
+      background-color: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-icon {
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr; /* One column on small screens */
+      }
     }
   </style>
 </head>
 <body>
+  <div class="dashboard-container">
+    <header class="dashboard-header">
+      <h1 class="dashboard-title">Paragon Deployment</h1>
+    </header>
 
-<h2>Enter Server Details</h2>
-<form method="post" id="serverForm">
-  <h3>Basic Server Information</h3>
-  <label for="paragon_version">Paragon Version:</label>
-  <input type="text" name="paragon_version" value="24.1" required>
-  
-  <label for="server_ip">Server IP:</label>
-  <input type="text" name="server_ip" value="10.219.94.137" required>
-  
-  <label for="server_username">Server Username:</label>
-  <input type="text" name="server_username" value="root" required>
-  
-  <label for="server_password">Server Password:</label>
-  <input type="password" name="server_password" value="root1234" required>
-  
-  <label for="ingress_ip">Ingress IP:</label>
-  <input type="text" name="ingress_ip" value="192.168.1.100" required>
-  
-  <label for="cluster_name">Cluster Name:</label>
-  <input type="text" name="cluster_name" value="paragon-cluster" required>
-  
-  <label for="ingresscontroller">Ingress Controller:</label>
-  <input type="text" name="ingresscontroller">
-  
-  <label for="insightsip">Insights IP:</label>
-  <input type="text" name="insightsip">
-  
-  <label for="snmp">SNMP:</label>
-  <input type="text" name="snmp">
-  
-  <label for="pathfinder">Pathfinder:</label>
-  <input type="text" name="pathfinder">
-  
-  <label for="use_netflowd">Use Netflowd:</label>
-  <input type="checkbox" name="use_netflowd" checked>
-  
-  <label for="pce_server">PCE Server:</label>
-  <input type="text" name="pce_server">
-  
-  <label for="ntp">NTP:</label>
-  <input type="text" name="ntp" value="time.nist.gov" required>
-  
-  <label for="md5_bgp">MD5 BGP:</label>
-  <input type="text" name="md5_bgp">
-  
-  <label for="md5_pce">MD5 PCE:</label>
-  <input type="text" name="md5_pce">
-  
-  <label for="bgp_asn">BGP ASN:</label>
-  <input type="text" name="bgp_asn">
+    <form id="serverForm">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Basic Server Configuration</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="ri-settings-3-line button-icon"></i> Paragon Version</label>
+            <input type="text" class="form-input" name="paragon_version" value="24.1" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-computer-line button-icon"></i> Server IP</label>
+            <input type="text" class="form-input" name="server_ip" value="10.219.94.137" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-user-line button-icon"></i> Server Username</label>
+            <input type="text" class="form-input" name="server_username" value="root" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-lock-line button-icon"></i> Server Password</label>
+            <input type="password" class="form-input" name="server_password" value="root1234" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-router-line button-icon"></i> Ingress IP</label>
+            <input type="text" class="form-input" name="ingress_ip" value="192.168.1.100" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-database-2-line button-icon"></i> Cluster Name</label>
+            <input type="text" class="form-input" name="cluster_name" value="paragon-cluster" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-time-line button-icon"></i> NTP Server</label>
+            <input type="text" class="form-input" name="ntp" value="time.nist.gov" required>
+          </div>
+        </div>
+      </div>
 
-  <h3>Virtual Machines</h3>
-  <div id="vms"></div>
-  <button type="button" onclick="addVM()">Add VM</button><br><br>
+      <div class="vm-section">
+        <div class="card-header">
+          <h2 class="card-title">Virtual Machine Configuration</h2>
+          <button type="button" class="button button-secondary" onclick="addVM()">
+            <i class="ri-add-line button-icon"></i> Add VM
+          </button>
+        </div>
+        <div id="vms" class="vm-list"></div>
+      </div>
 
-  <input type="submit" value="Submit">
-</form>
+      <div>
+        <button type="submit" class="button button-primary">
+          <i class="ri-save-line button-icon"></i> Submit Configuration
+        </button>
+      </div>
+    </form>
+  </div>
 
-<script>
-  let vmCount = 0;
-  const vms = [];
+  <script>
+    let vmCount = 0;
 
-  function addVM() {
-    vmCount++;
+    function addVM() {
+      vmCount++;
 
-    const vmDiv = document.createElement('div');
-    vmDiv.classList.add('vm');
-    vmDiv.innerHTML = `
-      <h4>VM ${vmCount}</h4>
-      <label for="hostname_${vmCount}">Hostname:</label>
-      <input type="text" name="vms[${vmCount - 1}][hostname]" required><br>
-      
-      <label for="ip_address_${vmCount}">IP Address:</label>
-      <input type="text" name="vms[${vmCount - 1}][ip_address]" required><br>
-      
-      <label for="user_${vmCount}">User:</label>
-      <input type="text" name="vms[${vmCount - 1}][user]" required><br>
-      
-      <label for="password_${vmCount}">Password:</label>
-      <input type="password" name="vms[${vmCount - 1}][password]" required><br>
-      
-      <label for="is_storage_node_${vmCount}">Is Storage Node:</label>
-      <input type="checkbox" name="vms[${vmCount - 1}][is_storage_node]"><br>
-      
-      <label for="vm_type_${vmCount}">VM Type:</label>
-      <input type="text" name="vms[${vmCount - 1}][vm_type]" required><br>
-      
-      <label for="os_${vmCount}">OS:</label>
-      <input type="text" name="vms[${vmCount - 1}][os]" required><br>
-      
-      <label for="cpu_cores_${vmCount}">CPU Cores:</label>
-      <input type="number" name="vms[${vmCount - 1}][cpu_cores]" required><br>
-      
-      <label for="ram_gb_${vmCount}">RAM (GB):</label>
-      <input type="number" name="vms[${vmCount - 1}][ram_gb]" required><br>
-      
-      <label for="ssh_enabled_${vmCount}">SSH Enabled:</label>
-      <input type="checkbox" name="vms[${vmCount - 1}][ssh_enabled]"><br>
-    `;
+      const vmDiv = document.createElement('div');
+      vmDiv.classList.add('vm-card');
+      vmDiv.innerHTML = `
+        <div class="card-header">
+          <h3 class="card-title">VM ${vmCount}</h3>
+            <div class="form-groupcheckbox">
+            <label class="checkboxlabel"><i class="ri-hdd-line button-icon"></i> Is Storage Node</label>
+            <input type="checkbox" class="form-input" name="vms[${vmCount - 1}][is_storage_node]">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="ri-computer-line button-icon"></i> Hostname</label>
+            <input type="text" class="form-input" name="vms[${vmCount - 1}][hostname]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-ip-line button-icon"></i> IP Address</label>
+            <input type="text" class="form-input" name="vms[${vmCount - 1}][ip_address]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-user-line button-icon"></i> User</label>
+            <input type="text" class="form-input" name="vms[${vmCount - 1}][user]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-lock-line button-icon"></i> Password</label>
+            <input type="password" class="form-input" name="vms[${vmCount - 1}][password]" required>
+          </div>
+        
+          <div class="form-group">
+            <label><i class="ri-settings-3-line button-icon"></i> VM Type</label>
+            <input type="text" class="form-input" name="vms[${vmCount - 1}][vm_type]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-linux-line button-icon"></i> OS</label>
+            <input type="text" class="form-input" name="vms[${vmCount - 1}][os]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-cpu-line button-icon"></i> CPU Cores</label>
+            <input type="number" class="form-input" name="vms[${vmCount - 1}][cpu]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-computer-line button-icon"></i> RAM (GB)</label>
+            <input type="number" class="form-input" name="vms[${vmCount - 1}][ram]" required>
+          </div>
+          <div class="form-group">
+            <label><i class="ri-hdd-line button-icon"></i> Disk (GB)</label>
+            <input type="number" class="form-input" name="vms[${vmCount - 1}][disk]" required>
+          </div>
+        </div>
+      `;
 
-    document.getElementById('vms').appendChild(vmDiv);
-  }
-
-  document.getElementById('serverForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    const formData = new FormData(this);
-    const data = {};
-
-    // Collect basic form data
-    formData.forEach((value, key) => {
-      if (key.startsWith('vms')) {
-        // Collect VM data into vms array
-        const vmKey = key.split('[')[1].split(']')[0];
-        if (!vms[vmKey]) {
-          vms[vmKey] = {};
-        }
-        const field = key.split('[')[2].split(']')[0];
-        vms[vmKey][field] = value;
-      } else {
-        data[key] = value;
-      }
-    });
-
-    data.vms = Object.values(vms); // Assign the array of VMs to the main data object
-
-    // Convert to JSON
-    const jsonData = JSON.stringify(data, null, 2);
-
-    // Trigger download of the JSON data
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    saveAs(blob, 'server_data.json'); // FileSaver.js function to trigger download
-  });
-</script>
-
+      document.getElementById('vms').appendChild(vmDiv);
+    }
+  </script>
 </body>
 </html>

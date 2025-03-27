@@ -3,10 +3,10 @@ import subprocess
 
 # IPs of the other nodes (excluding c1 itself)
 VM_IPS = [
-    "10.219.94.141",  # p1
-    "10.219.94.142",  # p2w1
-    "10.219.94.143",  # p3w2
-    "10.219.94.144",  # w3
+    "10.219.90.102",  # p1
+    "10.219.90.103",  # p2w1
+    "10.219.90.104",  # p3w2
+    "10.219.90.105",  # w3
 ]
 
 # WGET_URL = "https://cdn.juniper.net/software/pa/24.1.0/Paragon_24.1.tar.gz?SM_USER=pvasundhara&__gda__=1741323017_842da3934288d090489b67c079ac0b5d"

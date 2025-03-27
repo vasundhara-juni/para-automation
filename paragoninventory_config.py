@@ -46,7 +46,7 @@ SCRIPT_1_PATH = "./updateconfig.py"
 SCRIPT_2_PATH = "./updateinventory.py"
 FILE_1_PATH = "./pathfinder_config_updated.yml"  # Path of the first generated file
 FILE_2_PATH = "./inventory_updated"  # Path of the second generated file
-REMOTE_IP = "10.219.94.145"  # Replace with the IP to copy the files to
+REMOTE_IP = "10.219.90.101"  # Replace with the IP to copy the files to
 REMOTE_PATH = "/root/para/Paragon_24.1/config-dir"  # Replace with the desired destination path on the remote system
  # Replace with the desired destination path on the remote system
 REMOTE_FILE_1_NAME = "config.yml"  # The name to give the first file on the remote machine
